@@ -21,7 +21,7 @@
       "iso_url": "file://./debian-9.7.0-amd64-DVD-1.iso",
       "iso_checksum_type": "sha512",
       "iso_checksum": "b0d217a2492e3a02372bf9e84b6230a2c1d8e98dfb0daf17d8aef4f4058ed5841b7dd87a64b567631cccca6e082f608b87782a53f0e50c02e503163112f95d4f",
-      "shutdown_command": "sudo /sbin/halt -p",
+      "shutdown_command": "echo 'vagrant'| sudo --stdin /sbin/halt -p",
       "ssh_password": "vagrant",
       "ssh_username": "vagrant",
       "ssh_port": "22",
@@ -38,17 +38,12 @@
   "provisioners": [
     {
       "type": "shell",
-      "pause_before": "5s",
-      "execute_command": "echo 'vagrant'| {{.Vars}} sudo --preserve-env --stdin sh '{{.Path}}'",
-      "environment_vars": [
-         "VAGRANT_BUILDER_FS=/",
-         "VAGRANT_BUILDER_HOSTNAME=contrib-stretch"
-      ],
-      "scripts": [
-        "../helpers/vagrant-setup",
-        "scripts/vb-guest-additions-stretch.sh",
-        "scripts/minimize.sh"
-      ]
+      "inline": "echo 'vagrant'| sudo --stdin echo hi"
     }
-  ]
+  ],
+   "post-processors": [
+    {
+      "type": "vagrant"
+    }
+   ]
 }
