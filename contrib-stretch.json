@@ -4,6 +4,8 @@
     "box_version": "9.5.0",
     "box_changelog": "* New point release"
     },
+
+
   "builders": [
     {
       "boot_command": [
@@ -15,7 +17,13 @@
         "initrd=/install.amd/initrd.gz <wait>",
         "<enter><wait>"
       ],
-      "disk_size": "10140",
+     "vboxmanage": [
+        ["modifyvm", "{{.Name}}", "--memory", "512"],
+        ["modifyvm", "{{.Name}}", "--cpus", "2"],
+        ["modifyvm", "{{.Name}}", "--vram", "128"],
+        ["modifyvm", "{{.Name}}", "--vrde", "off"]
+      ],
+      "disk_size": "20480",
       "headless": false,
       "http_directory": "http",
       "iso_url": "file://./debian-9.7.0-amd64-DVD-1.iso",
